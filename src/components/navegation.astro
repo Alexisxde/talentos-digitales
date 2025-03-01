@@ -1,0 +1,159 @@
+---
+import { Icon } from "astro-icon/components"
+---
+
+<header
+	id="landing-header"
+	class="fixed top-0 z-40 flex w-full items-center justify-between px-10 py-4 text-white">
+	<a href="/" class="w-52">
+		<img
+			class="w-36"
+			src="logo-talentos-digitales.png"
+			alt="Logo Talentos Digitales"
+		/>
+	</a>
+
+	<nav class="hidden sm:hidden xl:block">
+		<ul
+			class="flex text-sm [&>li>a]:inline-block [&>li>a]:px-4 [&>li>a]:py-2 [&>li>a]:font-medium [&>li>a]:text-current [&>li>a]:transition-colors [&>li>a]:duration-500">
+			<li><a href="/formacion">Formación</a></li>
+			<li><a href="/inscripciones">Inscripción</a></li>
+			<li><a href="/contacto">Contacto</a></li>
+		</ul>
+	</nav>
+
+	<a
+		href="#"
+		class="animate-background-shine hidden h-10 w-52 items-center justify-center gap-2 rounded-2xl border border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 text-sm font-medium text-gray-400 transition-colors focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none md:inline-flex">
+		<span>
+			<Icon name="moddle" size="20px" />
+		</span>
+		<span>Plataforma Virtual</span>
+	</a>
+	<button class="block md:hidden" id="menu-btn">
+		<Icon name="menu" size="24px" />
+	</button>
+
+	<nav
+		id="modal-menu"
+		class="fixed top-0 right-0 bottom-0 left-0 flex hidden flex-col bg-neutral-950 xl:hidden">
+		<button
+			id="close-btn"
+			class="flex h-[90.98px] w-full items-center justify-end px-10 py-4">
+			<Icon name="close" size="24px" />
+		</button>
+		<ul
+			class="[&>li>a]:hover-slate-800 mt-4 flex flex-col [&>li]:m-3 [&>li>a]:w-full [&>li>a]:rounded-md [&>li>a]:px-6 [&>li>a]:py-3 [&>li>a]:font-medium [&>li>a]:text-neutral-100 [&>li>a]:transition-colors [&>li>a]:duration-200">
+			<li>
+				<a class="flex items-center gap-4 hover:bg-slate-800" href="#"
+					><span><Icon name="home" size="24px" /></span><span>Inicio</span></a
+				>
+			</li>
+			<li>
+				<a class="flex items-center gap-4 hover:bg-slate-800" href="#"
+					><span><Icon name="book" size="24px" /></span><span>Formación</span
+					></a
+				>
+			</li>
+			<li>
+				<a class="flex items-center gap-4 hover:bg-slate-800" href="#"
+					><span><Icon name="pencil" size="24px" /></span><span
+						>Inscripción</span
+					></a
+				>
+			</li>
+			<li>
+				<a class="flex items-center gap-4 hover:bg-slate-800" href="#"
+					><span><Icon name="chat" size="24px" /></span><span>Contacto</span></a
+				>
+			</li>
+			<li class="flex w-full items-center justify-center">
+				<button
+					class="animate-background-shine inline-flex h-10 items-center justify-center gap-2 rounded-2xl border border-gray-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-6 text-sm font-medium text-gray-400 transition-colors focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-gray-50 focus:outline-none">
+					<span>
+						<Icon name="moddle" size="20px" />
+					</span>
+					<span>Plataforma Virtual</span>
+				</button>
+			</li>
+		</ul>
+	</nav>
+</header>
+
+<div
+	id="menu-backdrop"
+	class={`
+      absolute bg-white/5 backdrop-blur-lg rounded
+      translate-x-[var(--left)] translate-y-[var(--top)]
+      left-0 top-0
+      w-[var(--width)] h-[var(--height)]
+      transition-all duration-500
+      ease-in-out opacity-0 -z-10
+    `}>
+</div>
+
+<script>
+	const menuBtn = document.getElementById("menu-btn")
+	const modalMenu = document.querySelector("#modal-menu")
+	const menuItems = modalMenu?.querySelectorAll("li>a ")
+	const closeBtn = document.querySelector("#close-btn")
+
+	function toggleDropdownMenu() {
+		modalMenu?.classList.toggle("hidden")
+	}
+
+	menuBtn?.addEventListener("click", toggleDropdownMenu)
+
+	closeBtn?.addEventListener("click", toggleDropdownMenu)
+
+	menuItems?.forEach(Item => {
+		Item.addEventListener("click", toggleDropdownMenu)
+	})
+</script>
+
+<script>
+	const listItem = document.querySelectorAll("#landing-header li")
+	const menuBackDrop = document.querySelector("#menu-backdrop") as HTMLElement
+
+	listItem.forEach(item => {
+		item.addEventListener("mouseenter", () => {
+			const { left, top, width, height } = item.getBoundingClientRect()
+
+			menuBackDrop.style.setProperty("--left", `${left}px`)
+			menuBackDrop.style.setProperty("--top", `${top}px`)
+			menuBackDrop.style.setProperty("--width", `${width}px`)
+			menuBackDrop.style.setProperty("--height", `${height}px`)
+
+			menuBackDrop.style.opacity = "1"
+			menuBackDrop.style.visibility = "visible"
+		})
+
+		item.addEventListener("mouseleave", () => {
+			menuBackDrop.style.opacity = "0"
+			menuBackDrop.style.visibility = "hidden"
+		})
+	})
+</script>
+
+<script>
+	const headerEl = document.querySelector("#landing-header") as HTMLElement
+
+	const observerOptions = {
+		root: null,
+		rootMargin: "0px", // en cuanto se vea el elemento
+		threshold: 0.9 // porcentaje de visibilidad
+	}
+
+	const observer = new IntersectionObserver(entries => {
+		entries.forEach(entry => {
+			const { isIntersecting } = entry
+			if (isIntersecting) {
+				const color = entry.target.getAttribute("data-header-color") as string
+				headerEl.style.color = color
+			}
+		})
+	}, observerOptions)
+
+	const sectionElements = document.querySelectorAll(".landing-section")
+	sectionElements.forEach(section => observer.observe(section))
+</script>

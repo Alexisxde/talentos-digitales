@@ -1,11 +1,17 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import Hero from "@/components/hero.astro"
+import Layout from "@/layouts/layout.astro"
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Talentos Digitales">
+	<div class="absolute inset-0 -z-10 size-full max-h-dvh bg-neutral-950">
+		<div
+			class="absolute inset-0 animate-pulse bg-[radial-gradient(circle_400px_at_50%_-100%,#ff00ff30,transparent)]">
+		</div><div
+			class="absolute inset-0 animate-pulse bg-[radial-gradient(circle_400px_at_50%_200%,#00ffff30,transparent)]">
+		</div><div
+			class="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.07)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.07)_1px,transparent_1px)] bg-[size:100px_100px]">
+		</div>
+	</div>
+	<Hero />
 </Layout>
